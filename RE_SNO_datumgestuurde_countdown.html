@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R.E.SNO – Wie klopt daar</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: grid; place-items: center;
+    background: #111; font-family: Arial, Helvetica, sans-serif;
+  }
+  .poster {
+    width: min(100vw, 600px); aspect-ratio: 2/3; position: relative; overflow: hidden;
+    color: white; background:
+      radial-gradient(ellipse at 50% 38%, #6f5425 0%, #332714 18%, #0c0b0a 48%, #050505 100%);
+    box-shadow: 0 0 40px #000;
+  }
+  .poster:before {
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse at 50% 42%, transparent 0 25%, rgba(166,116,34,.18) 38%, transparent 60%),
+      repeating-linear-gradient(115deg, transparent 0 25px, rgba(255,255,255,.025) 26px 27px);
+    mix-blend-mode: screen;
+  }
+  .silhouette {
+    position:absolute; width:58%; height:46%; left:21%; top:11%;
+    background:#050505; border-radius:48% 48% 15% 15%;
+    filter: drop-shadow(0 0 18px rgba(210,155,60,.35));
+  }
+  .silhouette:before {
+    content:""; position:absolute; width:44%; height:37%; left:28%; top:-8%;
+    background:#030303; border-radius:50%;
+  }
+  .silhouette:after {
+    content:""; position:absolute; width:120%; height:65%; left:-10%; top:35%;
+    background:#050505; border-radius:45% 45% 0 0;
+  }
+  .smoke { position:absolute; inset:15% 10% 35%; opacity:.25;
+    background: radial-gradient(circle, #c99845 0 2%, transparent 20%),
+                radial-gradient(circle at 70% 35%, #d4ad63 0 2%, transparent 22%),
+                radial-gradient(circle at 30% 65%, #8c672d 0 2%, transparent 25%);
+    filter: blur(18px);
+  }
+  .top { position:absolute; top:4%; width:100%; text-align:center; letter-spacing:8px;
+    font-size:clamp(12px,2.5vw,20px); color:#c69a45; }
+  .artist { position:absolute; top:58%; width:100%; text-align:center;
+    font-size:clamp(42px,10vw,76px); font-weight:900; letter-spacing:5px;
+    text-shadow: 3px 3px 0 #8d6a2e;
+  }
+  .title { position:absolute; top:68%; width:100%; text-align:center;
+    font-size:clamp(27px,6vw,46px); font-weight:900; font-style:italic;
+    color:#c99b43; text-transform:uppercase; letter-spacing:2px;
+  }
+  .status { position:absolute; bottom:12%; width:100%; text-align:center; }
+  .date { font-size:clamp(20px,4.5vw,34px); font-weight:800; letter-spacing:2px; }
+  .count { margin-top:8px; font-size:clamp(15px,3.4vw,24px); color:#d2aa62; font-weight:700; }
+  .brand { position:absolute; bottom:3%; width:100%; text-align:center;
+    font-weight:900; font-size:clamp(18px,4vw,28px); letter-spacing:3px; }
+  .brand span { color:#c99b43; }
+  .today { position:absolute; top:1%; right:2%; font-size:9px; opacity:.35; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="smoke"></div>
+  <div class="silhouette"></div>
+  <div class="top">SINGLE RELEASE</div>
+  <div class="artist">R.E.SNO</div>
+  <div class="title">WIE KLOPT DAAR</div>
+  <div class="status">
+    <div class="date" id="date"></div>
+    <div class="count" id="count"></div>
+  </div>
+  <div class="brand">N POP <span>88</span></div>
+  <div class="today" id="today"></div>
+</div>
+
+<script>
+const release = new Date("2026-09-25T00:00:00");
+const start = new Date("2026-09-20T00:00:00");
+const now = new Date();
+const oneDay = 24*60*60*1000;
+
+function fmt(d) {
+  return String(d.getDate()).padStart(2,'0') + "-" +
+         String(d.getMonth()+1).padStart(2,'0') + "-" + d.getFullYear();
+}
+
+let shownDate = now;
+if (now < start) shownDate = start;
+
+const daysLeft = Math.ceil((release - shownDate) / oneDay);
+
+if (now >= release) {
+  document.getElementById("date").textContent = "25-09-2026";
+  document.getElementById("count").textContent = "NU ONLINE";
+} else if (now >= start) {
+  document.getElementById("date").textContent = fmt(shownDate);
+  document.getElementById("count").textContent =
+    daysLeft === 1 ? "NOG 1 DAG" : "NOG " + daysLeft + " DAGEN";
+} else {
+  document.getElementById("date").textContent = "20-09-2026";
+  document.getElementById("count").textContent = "NOG 5 DAGEN";
+}
+
+document.getElementById("today").textContent = "Datumgestuurd";
+</script>
+</body>
+</html>
